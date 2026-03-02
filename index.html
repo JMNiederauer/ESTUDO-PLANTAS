@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌿 Revisão Completa – Plantas (Pedro)</title>
+
+<style>
+  :root{
+    --bg1:#061a1f;
+    --bg2:#0e3238;
+    --bg3:#144b54;
+    --panel:#0b262c;
+    --panel2:#082125;
+    --panel3:#062a30;
+    --text:#f1f1f1;
+    --muted:rgba(241,241,241,.78);
+    --line:rgba(255,255,255,.08);
+    --aqua:#00ffd5;
+    --mint:#00ffb3;
+    --warn:#ffd166;
+    --ok:#76ff7a;
+    --shadow:0 18px 60px rgba(0,0,0,.55);
+    --shadow2:0 10px 30px rgba(0,0,0,.45);
+    --radius:18px;
+  }
+
+  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
+    color: var(--text);
+    line-height: 1.85;
+  }
+
+  /* ===== Acessibilidade: reduz movimento ===== */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
+  }
+
+  /* ===== Top bar + progress ===== */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(4,20,23,.85);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .progress{
+    height:4px;
+    background:rgba(255,255,255,.08);
+  }
+  .progress > span{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--mint),var(--aqua));
+    box-shadow:0 0 18px rgba(0,255,179,.35);
+  }
+
+  header{
+    padding:42px 18px 28px;
+    text-align:center;
+    background:#041417;
+    box-shadow: var(--shadow2);
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    margin:0 0 10px;
+    color:var(--mint);
+    font-size: clamp(22px, 4vw, 34px);
+    letter-spacing:.3px;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    max-width: 920px;
+    margin-inline:auto;
+  }
+
+  /* ===== Navegação em chips ===== */
+  .nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding:14px 14px 16px;
+  }
+  .chip{
+    text-decoration:none;
+    color:var(--text);
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:rgba(11,38,44,.65);
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+    transition:.2s transform, .2s background;
+    font-size:14px;
+    white-space:nowrap;
+  }
+  .chip:hover{transform:translateY(-1px); background:rgba(11,38,44,.9);}
+  .chip:focus{outline:2px solid var(--aqua); outline-offset:2px;}
+
+  /* ===== Layout ===== */
+  main{
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 22px 14px 60px;
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin: 8px 0 18px;
+  }
+  .btn{
+    border:1px solid var(--line);
+    background: rgba(11,38,44,.8);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius: 12px;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(0,0,0,.25);
+    transition:.2s transform, .2s background;
+    font-weight:600;
+    font-size:14px;
+  }
+  .btn:hover{transform:translateY(-1px); background: rgba(11,38,44,1);}
+  .btn:active{transform:translateY(0px);}
+  .btn:focus{outline:2px solid var(--aqua); outline-offset:2px;}
+
+  /* ===== Blocos em accordion (ótimo para foco) ===== */
+  details.module{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin: 14px 0;
+    overflow:hidden;
+  }
+  details.module[open]{
+    outline: 1px solid rgba(0,255,213,.22);
+  }
+  summary{
+    list-style:none;
+    cursor:pointer;
+    padding: 18px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    background: linear-gradient(90deg, rgba(0,255,179,.10), rgba(0,255,213,.06));
+    border-bottom:1px solid var(--line);
+  }
+  summary::-webkit-details-marker{display:none;}
+  .sum-left{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:0;
+  }
+  .sum-title{
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--aqua);
+    letter-spacing:.2px;
+  }
+  .sum-sub{
+    font-size: 13px;
+    color: var(--muted);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .chev{
+    width: 34px; height: 34px;
+    border-radius: 12px;
+    border:1px solid var(--line);
+    display:grid;
+    place-items:center;
+    background: rgba(8,33,37,.9);
+    flex:0 0 auto;
+    transition:.25s transform;
+  }
+  details[open] .chev{transform:rotate(180deg);}
+
+  .content{
+    padding: 18px;
+    display:grid;
+    gap: 14px;
+  }
+
+  /* ===== Cards internos ===== */
+  .card{
+    background: rgba(8,33,37,.75);
+    border:1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .card h3{
+    margin:0 0 10px;
+    color:#7affff;
+    font-size: 16px;
+  }
+  .card p{margin:0 0 10px; color: var(--text);}
+  .card p:last-child{margin-bottom:0;}
+  .muted{color:var(--muted);}
+
+  .grid2{
+    display:grid;
+    gap:14px;
+  }
+  @media (min-width:860px){
+    .grid2{grid-template-columns: 1.1fr .9fr;}
+  }
+
+  .img{
+    width:100%;
+    border-radius: 16px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.55);
+    border:1px solid rgba(255,255,255,.08);
+    display:block;
+  }
+  figure{margin:0;}
+  figcaption{
+    margin-top:10px;
+    color:var(--muted);
+    font-size: 13px;
+  }
+
+  /* ===== Listas ===== */
+  ul{margin:10px 0 0; padding-left: 18px;}
+  li{margin:6px 0;}
+
+  /* ===== Destaques (conceito/atenção) ===== */
+  .callout{
+    background: var(--panel3);
+    border:1px solid var(--line);
+    border-left:6px solid var(--mint);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .callout strong{color:var(--mint);}
+  .callout .small{color:var(--muted); font-size:13px;}
+
+  .warn{
+    border-left-color: var(--warn);
+  }
+  .ok{
+    border-left-color: var(--ok);
+  }
+
+  /* ===== Mini-diagramas SVG ===== */
+  .svgwrap{
+    background: rgba(6,26,31,.55);
+    border:1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+    overflow:hidden;
+  }
+  svg{width:100%; height:auto; display:block;}
+
+  /* setas animadas */
+  .dash{
+    stroke-dasharray: 10 10;
+    animation: dashmove 1.4s linear infinite;
+  }
+  @keyframes dashmove{
+    to { stroke-dashoffset: -20; }
+  }
+
+  /* ===== Tabela ===== */
+  .tablewrap{
+    overflow:auto;
+    border-radius: 14px;
+    border:1px solid var(--line);
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width: 680px;
+    background: rgba(6,26,31,.4);
+  }
+  th,td{
+    border-bottom:1px solid rgba(255,255,255,.10);
+    padding:12px 12px;
+    text-align:left;
+  }
+  th{
+    background: rgba(0,191,166,.25);
+    color:#d9fff7;
+    font-weight:800;
+    position:sticky;
+    top:0;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ===== Pequena animação de entrada (suave) ===== */
+  .fade-in{
+    opacity:0;
+    transform: translateY(14px);
+    animation: appear .6s ease forwards;
+  }
+  .fade-in.d1{animation-delay:.05s;}
+  .fade-in.d2{animation-delay:.12s;}
+  .fade-in.d3{animation-delay:.18s;}
+  .fade-in.d4{animation-delay:.24s;}
+  @keyframes appear{
+    to{opacity:1; transform: translateY(0);}
+  }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="progress"><span id="pbar"></span></div>
+  <div class="nav" aria-label="Navegação rápida">
+    <a class="chip" href="#m1">🌿 1) Planta</a>
+    <a class="chip" href="#m2">🧱 2) Célula/Tecido/Órgão</a>
+    <a class="chip" href="#m3">🧫 3) Célula vegetal</a>
+    <a class="chip" href="#m4">☀️ 4) Fotossíntese</a>
+    <a class="chip" href="#m5">🚰 5) Tecidos</a>
+    <a class="chip" href="#m6">🌱 6) Órgãos</a>
+    <a class="chip" href="#m7">🧭 7) Classificação</a>
+    <a class="chip" href="#m8">⚖️ 8) Diferença</a>
+  </div>
+</div>
+
+<header>
+  <h1>🌿 REVISÃO COMPLETA – PLANTAS (para Pedro) 🌿</h1>
+  <p class="muted">
+    Objetivo 🎯: aprender por partes, com blocos claros, exemplos e conexões.  
+    Você pode abrir/fechar os módulos para estudar sem se perder 🧠✨
+  </p>
+</header>
+
+<main>
+  <div class="controls">
+    <button class="btn" id="openAll">📖 Abrir tudo</button>
+    <button class="btn" id="closeAll">🧩 Fechar tudo</button>
+    <button class="btn" id="studyMode">🎯 Modo foco</button>
+  </div>
+
+  <!-- 1 -->
+  <details class="module" id="m1" open>
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🌿 1) O que é uma planta?</div>
+        <div class="sum-sub">Definição + características + exemplos</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="card fade-in d1">
+        <h3>✅ Conceito</h3>
+        <p>
+          Plantas são seres vivos do <strong>Reino Plantae</strong> 🌎 que, na maioria dos casos,
+          produzem o próprio alimento por <strong>fotossíntese</strong> ☀️🍬.
+        </p>
+      </div>
+
+      <div class="grid2">
+        <div class="card fade-in d2">
+          <h3>🧾 Características gerais</h3>
+          <ul>
+            <li>🧬 <strong>Pluricelulares</strong>: têm muitas células.</li>
+            <li>🔬 <strong>Eucariontes</strong>: as células têm núcleo.</li>
+            <li>☀️ <strong>Autótrofas</strong> (a maioria): fabricam o próprio alimento.</li>
+          </ul>
+          <div class="callout ok" style="margin-top:14px;">
+            <strong>💡 Lembre:</strong> “Autótrofa” = faz alimento usando luz + água + CO₂.
+          </div>
+        </div>
+
+        <div class="card fade-in d3">
+          <h3>🌳 Exemplos</h3>
+          <p>árvores 🌳, capim 🌾, feijão 🌱, milho 🌽, ipê 🌼, samambaia 🍃, musgo 🌿, pinheiro 🌲</p>
+
+          <figure>
+            <img class="img" src="imagens/angiosperma.jpg" alt="Angiosperma">
+            <figcaption>📷 Exemplo de <strong>angiosperma</strong> (tem flor 🌸 e fruto 🍎).</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="card fade-in d4">
+        <h3>🔗 Por que isso importa?</h3>
+        <p>
+          As plantas são a <strong>base das cadeias alimentares</strong> 🧩🍽️:
+          elas transformam energia do Sol em alimento (glicose), e os animais dependem disso.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 2 -->
+  <details class="module" id="m2">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🧱 2) Conceitos-base: Célula → Tecido → Órgão</div>
+        <div class="sum-sub">Como o corpo da planta é organizado</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="card fade-in d1">
+        <h3>✅ Célula (a menor unidade viva) 🧫</h3>
+        <p>
+          A <strong>célula</strong> é a menor “unidade viva” do corpo.
+          Pense nela como um <strong>“tijolo”</strong> 🧱 que constrói o ser vivo.
+          O corpo de uma planta tem milhões de células.
+        </p>
+      </div>
+
+      <div class="card fade-in d2">
+        <h3>✅ Tecido (grupo de células com a mesma função) 🧩</h3>
+        <p>
+          <strong>Tecido</strong> é um grupo de células trabalhando juntas na mesma função.
+          Exemplo: tecido que transporta água 🚰.
+        </p>
+      </div>
+
+      <div class="card fade-in d3">
+        <h3>✅ Órgão (vários tecidos juntos) 🧠</h3>
+        <p>
+          <strong>Órgão</strong> é uma parte do corpo formada por vários tecidos,
+          fazendo uma função maior.
+          Nas plantas: raiz 🌱, caule 🌿, folha 🍃 e, em angiospermas, flor 🌸, fruto 🍎 e semente 🌰.
+        </p>
+      </div>
+
+      <div class="svgwrap fade-in d4" aria-label="Diagrama Célula Tecido Órgão">
+        <svg viewBox="0 0 900 220" role="img">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#00ffb3" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#00ffd5" stop-opacity=".22"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="35" y="45" width="250" height="120" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,.14)"/>
+          <text x="160" y="98" text-anchor="middle" fill="#eafffb" font-size="28" font-weight="800">🧫 Célula</text>
+          <text x="160" y="132" text-anchor="middle" fill="rgba(241,241,241,.86)" font-size="16">menor unidade viva</text>
+
+          <rect x="325" y="45" width="250" height="120" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,.14)"/>
+          <text x="450" y="98" text-anchor="middle" fill="#eafffb" font-size="28" font-weight="800">🧩 Tecido</text>
+          <text x="450" y="132" text-anchor="middle" fill="rgba(241,241,241,.86)" font-size="16">grupo de células</text>
+
+          <rect x="615" y="45" width="250" height="120" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,.14)"/>
+          <text x="740" y="98" text-anchor="middle" fill="#eafffb" font-size="28" font-weight="800">🌿 Órgão</text>
+          <text x="740" y="132" text-anchor="middle" fill="rgba(241,241,241,.86)" font-size="16">vários tecidos</text>
+
+          <line x1="285" y1="105" x2="325" y2="105" stroke="#00ffd5" stroke-width="6" class="dash"/>
+          <line x1="575" y1="105" x2="615" y2="105" stroke="#00ffd5" stroke-width="6" class="dash"/>
+        </svg>
+      </div>
+    </div>
+  </details>
+
+  <!-- 3 -->
+  <details class="module" id="m3">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🧫 3) Célula vegetal: o que tem e para que serve</div>
+        <div class="sum-sub">Parede celular + vacúolo + cloroplastos</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="grid2">
+        <div class="card fade-in d1">
+          <h3>🧱 Parede celular (celulose) 🛡️</h3>
+          <p>
+            É uma “parede dura” por fora da célula.  
+            <strong>Função:</strong> proteção + sustentação.
+          </p>
+
+          <h3 style="margin-top:16px;">💧 Vacúolo</h3>
+          <p>
+            É como um “reservatório” dentro da célula.  
+            <strong>Função:</strong> armazena água e substâncias (açúcares, sais etc.).
+          </p>
+
+          <h3 style="margin-top:16px;">☀️ Cloroplastos</h3>
+          <p>
+            Estruturas onde fica a clorofila e onde acontece a fotossíntese.
+          </p>
+
+          <div class="callout ok" style="margin-top:14px;">
+            <strong>🔎 Dica de prova:</strong> clorofila fica no cloroplasto.
+          </div>
+        </div>
+
+        <div class="card fade-in d2">
+          <figure>
+            <img class="img" src="imagens/celula_vegetal.jpg" alt="Célula vegetal">
+            <figcaption>📷 Célula vegetal: observe estruturas internas.</figcaption>
+          </figure>
+
+          <figure>
+            <img class="img" src="imagens/cloroplasto.jpg" alt="Cloroplasto">
+            <figcaption>📷 Cloroplasto: onde ocorre a fotossíntese ☀️🍬.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 4 -->
+  <details class="module" id="m4">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">☀️ 4) Clorofila e Fotossíntese</div>
+        <div class="sum-sub">Entradas → processo → produtos (com sentido)</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="grid2">
+        <div class="card fade-in d1">
+          <h3>🟩 O que é clorofila?</h3>
+          <p>
+            Clorofila é o pigmento verde que captura a luz do Sol ☀️.
+            Ela fica dentro dos <strong>cloroplastos</strong>.
+          </p>
+
+          <h3 style="margin-top:16px;">🌞 O que é fotossíntese?</h3>
+          <p>
+            Fotossíntese é quando a planta usa luz para produzir <strong>glicose</strong> (alimento) 🍬
+            e liberar <strong>oxigênio</strong> (O₂) 🌬️.
+          </p>
+
+          <div class="callout" style="margin-top:14px;">
+            <strong>➡️ A planta usa:</strong>
+            <ul>
+              <li>☀️ luz solar</li>
+              <li>💧 água (pela raiz)</li>
+              <li>🌫️ gás carbônico (CO₂) (entra pela folha)</li>
+            </ul>
+            <p class="small">✨ Isso vira alimento para a planta e oxigênio para o ar.</p>
+          </div>
+
+          <div class="callout ok">
+            <strong>✅ A planta produz:</strong>
+            <ul>
+              <li>🍬 glicose (energia/alimento)</li>
+              <li>🌬️ oxigênio (O₂)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card fade-in d2">
+          <figure>
+            <img class="img" src="imagens/fotosintese.jpg" alt="Fotossíntese">
+            <figcaption>📷 Fotossíntese: luz + água + CO₂ → glicose + O₂</figcaption>
+          </figure>
+
+          <div class="svgwrap">
+            <svg viewBox="0 0 900 260" role="img" aria-label="Fluxo da fotossíntese">
+              <defs>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0" stop-color="#00ffb3" stop-opacity=".35"/>
+                  <stop offset="1" stop-color="#00ffd5" stop-opacity=".22"/>
+                </linearGradient>
+              </defs>
+
+              <rect x="35" y="45" width="250" height="170" rx="18" fill="url(#g2)" stroke="rgba(255,255,255,.14)"/>
+              <text x="160" y="88" text-anchor="middle" fill="#eafffb" font-size="22" font-weight="800">☀️ + 💧 + 🌫️</text>
+              <text x="160" y="120" text-anchor="middle" fill="rgba(241,241,241,.88)" font-size="15">luz + água + CO₂</text>
+
+              <rect x="325" y="45" width="250" height="170" rx="18" fill="rgba(11,38,44,.75)" stroke="rgba(255,255,255,.14)"/>
+              <text x="450" y="92" text-anchor="middle" fill="#7affff" font-size="22" font-weight="800">🧫 Cloroplasto</text>
+              <text x="450" y="124" text-anchor="middle" fill="rgba(241,241,241,.88)" font-size="15">fotossíntese acontece aqui</text>
+              <text x="450" y="162" text-anchor="middle" fill="rgba(241,241,241,.78)" font-size="14">clorofila captura luz</text>
+
+              <rect x="615" y="45" width="250" height="170" rx="18" fill="url(#g2)" stroke="rgba(255,255,255,.14)"/>
+              <text x="740" y="88" text-anchor="middle" fill="#eafffb" font-size="22" font-weight="800">🍬 + 🌬️</text>
+              <text x="740" y="120" text-anchor="middle" fill="rgba(241,241,241,.88)" font-size="15">glicose + oxigênio</text>
+
+              <line x1="285" y1="130" x2="325" y2="130" stroke="#00ffd5" stroke-width="6" class="dash"/>
+              <line x1="575" y1="130" x2="615" y2="130" stroke="#00ffd5" stroke-width="6" class="dash"/>
+            </svg>
+          </div>
+
+          <div class="callout warn">
+            <strong>🧠 Por que isso importa?</strong>
+            <ul>
+              <li>🌿 A planta se alimenta.</li>
+              <li>🐄 Animais comem plantas.</li>
+              <li>🔗 Plantas são base das cadeias alimentares.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 5 -->
+  <details class="module" id="m5">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🚰 5) Tecidos das plantas</div>
+        <div class="sum-sub">Crescimento + transporte (xilema/floema)</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="grid2">
+        <div class="card fade-in d1">
+          <h3>🌱 Meristemas (tecido de crescimento)</h3>
+          <p>
+            Meristema é tecido com células que se dividem o tempo todo ✂️➕.
+            <strong>Função:</strong> fazer a planta crescer.
+          </p>
+          <ul>
+            <li>📍 ponta da raiz</li>
+            <li>📍 ponta do caule</li>
+          </ul>
+
+          <h3 style="margin-top:18px;">🧪 Tecidos vasculares (transporte)</h3>
+          <p>
+            São “tubos” por dentro da planta que transportam substâncias.
+          </p>
+
+          <div class="callout">
+            <strong>🚰 Xilema</strong> → transporta <strong>água + sais minerais</strong> (seiva bruta).  
+            <div class="small">Caminho: raiz → folhas</div>
+          </div>
+
+          <div class="callout ok">
+            <strong>🍬 Floema</strong> → transporta <strong>açúcar</strong> da fotossíntese (seiva elaborada).  
+            <div class="small">Caminho: folhas → resto da planta</div>
+          </div>
+        </div>
+
+        <div class="card fade-in d2">
+          <figure>
+            <img class="img" src="imagens/xilema_floema.jpg" alt="Xilema e Floema">
+            <figcaption>📷 Xilema (🚰) e Floema (🍬): transporte interno.</figcaption>
+          </figure>
+
+          <div class="svgwrap" aria-label="Setas de transporte">
+            <svg viewBox="0 0 900 220" role="img">
+              <rect x="40" y="40" width="820" height="140" rx="18" fill="rgba(6,26,31,.55)" stroke="rgba(255,255,255,.12)"/>
+              <text x="120" y="105" fill="#7affff" font-size="20" font-weight="800">🚰 Xilema</text>
+              <line x1="220" y1="100" x2="680" y2="100" stroke="#00ffd5" stroke-width="7" class="dash"/>
+              <text x="760" y="105" fill="rgba(241,241,241,.9)" font-size="16">raiz → folhas</text>
+
+              <text x="120" y="150" fill="#00ffb3" font-size="20" font-weight="800">🍬 Floema</text>
+              <line x1="680" y1="145" x2="220" y2="145" stroke="#00ffb3" stroke-width="7" class="dash"/>
+              <text x="760" y="150" fill="rgba(241,241,241,.9)" font-size="16">folhas → resto</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 6 -->
+  <details class="module" id="m6">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🌱 6) Órgãos da planta</div>
+        <div class="sum-sub">Raiz + caule + folha + flor + fruto + semente</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <!-- RAIZ -->
+      <div class="card fade-in d1">
+        <h3>🌱 RAIZ</h3>
+        <p><strong>Conceito:</strong> órgão que fica, geralmente, no solo.</p>
+        <ul>
+          <li>💧 absorver água e sais minerais</li>
+          <li>🧷 fixar a planta no solo</li>
+          <li>🍞 às vezes armazenar alimento (amido)</li>
+        </ul>
+        <div class="callout">
+          <strong>Estruturas importantes:</strong>
+          <ul>
+            <li>🌱 meristema na ponta (crescimento)</li>
+            <li>🚰 vasos (xilema e floema) dentro</li>
+          </ul>
+        </div>
+        <img class="img" src="imagens/raiz.jpg" alt="Raiz">
+      </div>
+
+      <!-- CAULE -->
+      <div class="card fade-in d2">
+        <h3>🌿 CAULE</h3>
+        <p><strong>Conceito:</strong> sustenta a planta e liga raiz às folhas.</p>
+        <ul>
+          <li>🏗️ sustentar folhas, flores e frutos</li>
+          <li>🚰 transportar seiva</li>
+          <li>🍠 às vezes armazenar alimento</li>
+        </ul>
+        <div class="callout">
+          <strong>Partes do caule:</strong>
+          <ul>
+            <li>🔸 nó: onde nascem folhas e ramos</li>
+            <li>↔️ entrenó: espaço entre dois nós</li>
+            <li>🌱 gemas: podem virar novos ramos/folhas</li>
+          </ul>
+          <p class="small">
+            <strong>Tipos (exemplos):</strong> aéreo 🌳 (tronco), subterrâneo 🥔 (tubérculo), aquático 🌊 (aguapé)
+          </p>
+        </div>
+        <img class="img" src="imagens/caule.jpg" alt="Caule">
+      </div>
+
+      <!-- FOLHA -->
+      <div class="card fade-in d3">
+        <h3>🍃 FOLHA</h3>
+        <p><strong>Conceito:</strong> órgão principal da fotossíntese.</p>
+        <ul>
+          <li>☀️ fazer fotossíntese</li>
+          <li>🌬️ trocar gases com o ar</li>
+          <li>💧 controlar perda de água</li>
+        </ul>
+        <div class="callout">
+          <strong>Partes da folha:</strong>
+          <ul>
+            <li>🟩 limbo: parte achatada</li>
+            <li>🧷 pecíolo: “cabinho”</li>
+            <li>🧩 bainha (em algumas): base que envolve o caule</li>
+          </ul>
+          <p class="small">
+            <strong>Estruturas que caem em prova:</strong> estômatos (poros), nervuras (xilema/floema), mesófilo (fotossíntese)
+          </p>
+          <p class="small">
+            <strong>Folhas modificadas:</strong> espinhos 🌵, carnívoras 🪰, cebola 🧅 (catafilos)
+          </p>
+        </div>
+        <img class="img" src="imagens/folha.jpg" alt="Folha">
+      </div>
+
+      <!-- FLOR -->
+      <div class="card fade-in d4">
+        <h3>🌸 FLOR (só em ANGIOSPERMAS)</h3>
+        <p><strong>Conceito:</strong> órgão reprodutor das angiospermas.</p>
+        <div class="callout">
+          <strong>Partes:</strong>
+          <ul>
+            <li>🍃 sépalas: protegem o botão</li>
+            <li>🌸 pétalas: atraem polinizadores</li>
+          </ul>
+          <p class="small">
+            <strong>Órgão masculino:</strong> estames = filete + antera (antera produz pólen) 🌾  
+            <br><strong>Órgão feminino:</strong> carpelos: estigma, estilete, ovário (ovário tem óvulos) 🥚
+          </p>
+          <p class="small">
+            <strong>Polinização:</strong> transporte do pólen por insetos 🐝, aves 🐦, morcegos 🦇 ou vento 🌬️
+          </p>
+        </div>
+        <img class="img" src="imagens/flor.jpg" alt="Flor">
+      </div>
+
+      <!-- FRUTO -->
+      <div class="card fade-in d1">
+        <h3>🍎 FRUTO (só em ANGIOSPERMAS)</h3>
+        <p><strong>Conceito:</strong> ovário desenvolvido depois da fecundação.</p>
+        <ul>
+          <li>🛡️ proteger sementes</li>
+          <li>🚀 ajudar na dispersão</li>
+        </ul>
+        <div class="callout">
+          <strong>Partes do fruto:</strong>
+          <ul>
+            <li>🍏 epicarpo: casca</li>
+            <li>🍑 mesocarpo: polpa</li>
+            <li>🥥 endocarpo: parte interna (ex: caroço)</li>
+          </ul>
+          <p class="small"><strong>Fruto acessório:</strong> maçã 🍎 (parte carnosa vem do receptáculo floral)</p>
+        </div>
+        <img class="img" src="imagens/fruto.jpg" alt="Fruto">
+      </div>
+
+      <!-- SEMENTE -->
+      <div class="card fade-in d2">
+        <h3>🌰 SEMENTE (GIMNOSPERMAS e ANGIOSPERMAS)</h3>
+        <p><strong>Conceito:</strong> formada após fecundação.</p>
+        <div class="callout">
+          <strong>Tem:</strong>
+          <ul>
+            <li>👶 embrião</li>
+            <li>🍞 reserva nutritiva</li>
+            <li>🛡️ casca</li>
+          </ul>
+          <p class="small">
+            <strong>Germinação precisa:</strong> água 💧, temperatura adequada 🌡️, oxigênio 🌬️
+          </p>
+        </div>
+        <img class="img" src="imagens/semente.jpg" alt="Semente">
+      </div>
+    </div>
+  </details>
+
+  <!-- 7 -->
+  <details class="module" id="m7">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">🧭 7) Classificação das plantas</div>
+        <div class="sum-sub">Critérios + grupos (briófitas, pteridófitas, gimnospermas, angiospermas)</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="card fade-in d1">
+        <h3>🎯 Critérios de classificação</h3>
+        <ol style="margin:10px 0 0; padding-left:18px;">
+          <li>🚰 Tem vasos? (xilema/floema)</li>
+          <li>🌰 Tem semente?</li>
+          <li>🍎 Tem fruto?</li>
+        </ol>
+      </div>
+
+      <div class="card fade-in d2">
+        <h3>📊 Mapa rápido (para entender sem decorar)</h3>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Grupo 🌿</th>
+                <th>Vasos (xilema/floema) 🚰</th>
+                <th>Semente 🌰</th>
+                <th>Fruto 🍎</th>
+                <th>Como reproduz?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🌿 Briófitas</td>
+                <td>Não</td>
+                <td>Não</td>
+                <td>Não</td>
+                <td>Esporos 🌫️</td>
+              </tr>
+              <tr>
+                <td>🍃 Pteridófitas</td>
+                <td>Sim</td>
+                <td>Não</td>
+                <td>Não</td>
+                <td>Esporos 🌫️</td>
+              </tr>
+              <tr>
+                <td>🌲 Gimnospermas</td>
+                <td>Sim</td>
+                <td>Sim</td>
+                <td>Não</td>
+                <td>Sementes “nuas” 🌰</td>
+              </tr>
+              <tr>
+                <td>🌸 Angiospermas</td>
+                <td>Sim</td>
+                <td>Sim</td>
+                <td>Sim</td>
+                <td>Flor 🌸 → fruto 🍎</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Briófitas -->
+      <div class="grid2">
+        <div class="card fade-in d3">
+          <h3>🌿 BRIÓFITAS</h3>
+          <p><strong>Conceito:</strong> plantas <strong>avasculares</strong> (não têm xilema e floema) 🚫🚰.</p>
+          <ul>
+            <li>📏 pequenas</li>
+            <li>💧 vivem em locais úmidos</li>
+            <li>🐢 transporte lento (célula a célula)</li>
+            <li>🌫️ reprodução por esporos</li>
+          </ul>
+          <div class="callout">
+            <strong>Estruturas “parecidas”:</strong>
+            <ul>
+              <li>🧷 rizoides (parecem raízes)</li>
+              <li>🪵 cauloides (parecem caule)</li>
+              <li>🍃 filoides (parecem folhas)</li>
+            </ul>
+            <p class="small"><strong>Exemplos:</strong> ✅ musgos, ✅ hepáticas</p>
+          </div>
+        </div>
+        <div class="card fade-in d4">
+          <img class="img" src="imagens/briopita.jpg" alt="Briófitas">
+          <div class="callout ok">
+            <strong>🧠 Ideia-chave:</strong> briófitas dependem muito da água e não têm “tubos” de transporte.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pteridófitas -->
+      <div class="grid2">
+        <div class="card fade-in d1">
+          <h3>🍃 PTERIDÓFITAS</h3>
+          <p><strong>Conceito:</strong> plantas <strong>vasculares</strong> (têm xilema e floema) 🚰, mas <strong>sem sementes</strong> ❌🌰.</p>
+          <ul>
+            <li>🌱 raiz, caule e folha verdadeiros</li>
+            <li>❌ não produzem flores nem frutos</li>
+            <li>🌫️ reprodução por esporos</li>
+          </ul>
+          <div class="callout">
+            <strong>Detalhes que caem:</strong>
+            <ul>
+              <li>🪵 rizoma: caule horizontal</li>
+              <li>⚫ soros: embaixo da folha (formam esporos)</li>
+            </ul>
+            <p class="small"><strong>Exemplos:</strong> ✅ samambaias, ✅ avencas, ✅ samambaiaçu, ✅ cavalinha</p>
+          </div>
+        </div>
+        <div class="card fade-in d2">
+          <img class="img" src="imagens/pteridofita.jpg" alt="Pteridófitas">
+          <div class="callout ok">
+            <strong>🧠 Ideia-chave:</strong> já tem “tubos” (vasos), mas ainda não tem semente.
+          </div>
+        </div>
+      </div>
+
+      <!-- Gimnospermas -->
+      <div class="grid2">
+        <div class="card fade-in d3">
+          <h3>🌲 GIMNOSPERMAS</h3>
+          <p><strong>Conceito:</strong> vasculares 🚰 que produzem <strong>sementes</strong> 🌰, mas <strong>sem fruto</strong> ❌🍎.</p>
+          <p><strong>A semente fica “nua”</strong> (exposta).</p>
+          <ul>
+            <li>🌳 geralmente árvores grandes</li>
+            <li>❌ não formam fruto</li>
+          </ul>
+          <div class="callout">
+            <strong>Exemplos:</strong> ✅ pinheiros, ✅ araucárias, ✅ ciprestes
+          </div>
+        </div>
+        <div class="card fade-in d4">
+          <img class="img" src="imagens/gimnosperma.jpg" alt="Gimnospermas">
+        </div>
+      </div>
+
+      <!-- Angiospermas -->
+      <div class="grid2">
+        <div class="card fade-in d1">
+          <h3>🌸 ANGIOSPERMAS</h3>
+          <p><strong>Conceito:</strong> vasculares 🚰 com <strong>flor</strong> 🌸 e <strong>fruto</strong> 🍎.</p>
+          <p>As sementes ficam <strong>protegidas dentro do fruto</strong> 🌰➡️🍎.</p>
+          <div class="callout">
+            <strong>Exemplos:</strong>
+            <ul>
+              <li>✅ feijão, milho, arroz, soja</li>
+              <li>✅ mangueira, macieira, laranjeira</li>
+              <li>✅ ipê, vitória-régia</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card fade-in d2">
+          <img class="img" src="imagens/angiosperma.jpg" alt="Angiospermas">
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 8 -->
+  <details class="module" id="m8">
+    <summary>
+      <div class="sum-left">
+        <div class="sum-title">⚖️ 8) Diferença entre Gimnospermas e Angiospermas</div>
+        <div class="sum-sub">O que é igual + o que muda (principal)</div>
+      </div>
+      <div class="chev">⬇️</div>
+    </summary>
+
+    <div class="content">
+      <div class="card fade-in d1">
+        <h3>✅ O que as duas têm em comum</h3>
+        <p>🌱 raiz, 🌿 caule, 🍃 folhas, 🚰 vasos e 🌰 sementes.</p>
+      </div>
+
+      <div class="card fade-in d2">
+        <h3>🎯 Diferença principal (a que mais cai)</h3>
+        <div class="callout warn">
+          <p><strong>🌲 Gimnospermas:</strong> sementes <strong>sem fruto</strong> (sementes expostas) 🌰</p>
+          <p><strong>🌸 Angiospermas:</strong> sementes <strong>dentro do fruto</strong> 🍎 e têm <strong>flores</strong> 🌸</p>
+        </div>
+      </div>
+
+      <div class="card fade-in d3">
+        <h3>🧠 Como lembrar rápido</h3>
+        <p>
+          <strong>ANGIO</strong> = “vaso/recipiente” (pense: semente guardada) 🫙🌰  
+          <br><strong>GIMNO</strong> = “nu” (semente nua/exposta) 🌰✨
+        </p>
+      </div>
+    </div>
+  </details>
+
+</main>
+
+<script>
+  // Progress bar
+  const pbar = document.getElementById('pbar');
+  function updateProgress(){
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const pct = height > 0 ? (scrollTop / height) * 100 : 0;
+    pbar.style.width = pct.toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  // Open/close all
+  const modules = Array.from(document.querySelectorAll('details.module'));
+  document.getElementById('openAll').addEventListener('click', ()=> modules.forEach(d=> d.open = true));
+  document.getElementById('closeAll').addEventListener('click', ()=> modules.forEach(d=> d.open = false));
+
+  // Study mode: abre só um por vez (ótimo para foco)
+  let focusMode = false;
+  const btnStudy = document.getElementById('studyMode');
+
+  function setFocusMode(on){
+    focusMode = on;
+    btnStudy.textContent = on ? '🧠 Modo foco: ATIVO' : '🎯 Modo foco';
+    btnStudy.style.borderColor = on ? 'rgba(0,255,213,.35)' : 'rgba(255,255,255,.08)';
+  }
+  setFocusMode(false);
+
+  btnStudy.addEventListener('click', ()=>{
+    setFocusMode(!focusMode);
+    if(focusMode){
+      // deixa só o primeiro aberto
+      modules.forEach((d,i)=> d.open = (i===0));
+    }
+  });
+
+  // Se modo foco ativo, ao abrir um, fecha os outros
+  modules.forEach(d=>{
+    d.addEventListener('toggle', ()=>{
+      if(!focusMode || !d.open) return;
+      modules.forEach(other=>{
+        if(other !== d) other.open = false;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
